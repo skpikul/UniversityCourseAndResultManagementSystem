@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "ViewAllDepartment";
+}
+
+<h2>View All Department</h2>
+<div class="container">
+    <fieldset>
+        @*<legend> View All Department</legend>*@
+        <table class="table table-bordered">
+            <link href="~/Content/bootstrap.css" rel="stylesheet" />
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            @foreach (var department in Model)
+            {
+                <tr>
+                    <th>@department.Code</th>
+                    <th>@department.Name</th>
+                </tr>
+            }
+        </table>
+
+    </fieldset>
+</div>
+
+ 
+

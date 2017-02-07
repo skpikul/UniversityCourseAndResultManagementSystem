@@ -1,0 +1,85 @@
+﻿@using UniversityCourseAndResultMangementSystem.Models
+@{
+    ViewBag.Title = "ViewCourseStatic";
+    List<DepartmentModel> departmentList = ViewBag.departmentList;
+    List<CourseAssignModel> courseStatic = ViewBag.courseStatic; 
+}
+<h2>View Course Statics</h2>
+<div class="container">
+    <fieldset>
+        <table class="table table-bordered">
+            <tr>
+                <td>
+                    <label for="departmentId"> Department </label>
+                </td>
+                <td>
+                    <select name="departmentId" id="departmentId" class="form-control">
+                        <option value="">----Select-----</option>
+                        @foreach (var department in departmentList)
+                        {
+                            <option value="@department.DepartmentID">@department.Name</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <td>Code</td>
+                    <td>Name/Title</td>
+                    <td>Semester</td>
+                    <td>Assigned To</td>
+                </tr>
+                @*@foreach (var Statci in courseStatic)
+                    {
+                        <tr>
+                            <td>
+                                @Statci.CourseCode
+                            </td>
+                            <td>@Statci.CourseName</td>
+                            <td>@Statci.SemesterName</td>
+                            <td>@Statci.TeacherName</td>
+                        </tr>
+                    }*@
+            </thead>
+
+            <tbody class="a" id="result"></tbody>
+        </table>
+       
+    </fieldset>
+</div>
+@section scripts
+{
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+ 
+<script>
+
+    $(document).ready(function() {
+        $("#departmentId").change(function () {
+            var deptId = $("#departmentId").val();
+            $("#result").empty();
+            var json = {
+                departmentId: deptId
+            };
+            $code = ""; 
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("ViewCourseStaticByDepartmentId", "CourseAssign")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+                    //alert(data);
+                    $.each(data, function (key, value) {
+                        //alert(key);
+                        $("#result").append('<tr> <td>' + value.CourseCode + '</td> <td>' + value.CourseName + '</td><td>' + value.SemesterName + '</td><td>' + value.TeacherName + '</td></tr>');
+                    });
+                }
+            });
+        });
+    });
+
+</script>     
+}
